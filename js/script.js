@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btnExplorar) {
         btnExplorar.addEventListener('click', (evento) => {
             evento.preventDefault(); 
-            alert('¡Próximamente: Catálogo completo de prendas y fragancias para nuestro emprendimiento!');
+            alert('Oh lo sentimos :(\n\n¡Próximamente: Catálogo completo de prendas y fragancias para nuestro emprendimiento!');
         });
     }
 
