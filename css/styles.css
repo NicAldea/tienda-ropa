@@ -78,3 +78,34 @@ footer {
     color: white;
     margin-top: 2rem;
 }
+
+.campo-form {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+.campo-form label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.campo-form input,
+.campo-form textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.mensaje-error {
+    color: #c0392b;
+    font-size: 0.85rem;
+    min-height: 1rem;
+}
+
+#contacto {
+    max-width: 500px;
+    margin: 0 auto;
+}
