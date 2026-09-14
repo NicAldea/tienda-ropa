@@ -109,3 +109,56 @@ footer {
     max-width: 500px;
     margin: 0 auto;
 }
+
+.grilla-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.producto {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.producto:hover {
+    transform: translateY(-4px);
+}
+
+.producto img {
+    max-width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.producto h2 {
+    font-size: 1.1rem;
+    margin: 0.8rem 0 0.3rem;
+}
+
+.precio {
+    font-weight: bold;
+    color: #d4a373;
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+}
+
+.btn-agregar {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+}
+
+.btn-agregar:hover {
+    background: #d4a373;
+}
