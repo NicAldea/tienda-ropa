@@ -162,3 +162,52 @@ footer {
 .btn-agregar:hover {
     background: #d4a373;
 }
+
+#login {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.marca {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.marca img {
+    max-width: 180px;
+    border-radius: 8px;
+}
+
+.marca h1 {
+    margin: 0.5rem 0 0;
+}
+
+#form-login {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+#form-login h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+#form-login .campo-form {
+    max-width: 100%;
+}
+
+#form-login button {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+}
+
+#form-login button:hover {
+    background: #d4a373;
+}
