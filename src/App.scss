@@ -1,0 +1,21 @@
+
+
+/* Cambiando los colores principales */
+$primary: #572364;
+$secondary: #A07BC0;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #FFC107;
+$info: #17a2b8;
+$light: #F8F9FA;
+$dark: #343A40;
+$body-bg: #FFFFFF;
+$body-color: #212529;
+$nav-link-color: FFFFFF;
+
+nav {
+  color: white !important;
+}
+
+/* importando bootstrap */
+@import 'bootstrap/scss/bootstrap';
