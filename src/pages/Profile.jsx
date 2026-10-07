@@ -11,7 +11,7 @@ function Profile() {
 
   useEffect(() => {
     getUserProfile()
-    .then((user) => {
+      .then((user) => {
         setUserInfo(user);
       })
       .catch((err) => {
@@ -20,22 +20,50 @@ function Profile() {
       });
   }, []);
 
-  if (userInfo == undefined) {
+  if (userInfo === undefined) {
     return <Loading />;
   }
 
   return (
-    <Row>
-      <Col xs={12} sm={8}>
-        <div>
-          <Image className="object-fit-cover" src={userInfo.profilePicture} width={100}  height={100} roundedCircle />
-        </div>
-      </Col>
-      <Col xs={12} sm={4} className="text-center">
-        <h5>Nivel de Estim</h5>
-        <h1>{userInfo.profileLevel}</h1>
-      </Col>
-    </Row>
+    <>
+      <h1>Mi perfil</h1>
+      <hr />
+      <Row className="mt-4">
+        <Col xs={12} sm={4} className="text-center mb-4">
+          <Image
+            className="object-fit-cover"
+            src={userInfo.profilePicture}
+            alt={`Foto de perfil de ${userInfo.name}`}
+            width={140}
+            height={140}
+            roundedCircle
+          />
+        </Col>
+        <Col xs={12} sm={8}>
+          <h4>{userInfo.name} {userInfo.lastname}</h4>
+          <p className="text-muted mb-4">{userInfo.email}</p>
+
+          <Row>
+            <Col xs={6} className="mb-3">
+              <small className="text-muted d-block">Cliente desde</small>
+              <strong>{userInfo.memberSince}</strong>
+            </Col>
+            <Col xs={6} className="mb-3">
+              <small className="text-muted d-block">Pedidos realizados</small>
+              <strong>{userInfo.totalOrders}</strong>
+            </Col>
+            <Col xs={6} className="mb-3">
+              <small className="text-muted d-block">Categoría favorita</small>
+              <strong>{userInfo.favoriteCategory}</strong>
+            </Col>
+            <Col xs={6} className="mb-3">
+              <small className="text-muted d-block">Fecha de nacimiento</small>
+              <strong>{userInfo.birthDate}</strong>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </>
   )
 }
 

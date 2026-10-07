@@ -8,7 +8,7 @@ export const ROUTE_PATHS = {
   PROFILE: '/mi-perfil',
   PRODUCTS: '/productos',
   PRODUCT_DETAIL: '/productos/:id',
-  LIBRARY: '/mi-biblioteca',
+  ORDERS: '/mis-pedidos',
   PRODUCT_DETAIL_WITH_ID: (id) => `${ROUTE_PATHS.PRODUCTS}/${id}`,
 }
 

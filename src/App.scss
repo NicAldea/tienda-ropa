@@ -1,21 +1,23 @@
+$primary:   #1a1a1a;
+$secondary: #d4a373;
+$success:   #28a745;
+$danger:    #c0392b;
+$warning:   #ffc107;
+$info:      #17a2b8;
+$light:     #f8f9fa;
+$dark:      #1a1a1a;
 
+$body-bg:    #ffffff;
+$body-color: #222222;
 
-/* Cambiando los colores principales */
-$primary: #572364;
-$secondary: #A07BC0;
-$success: #28a745;
-$danger: #dc3545;
-$warning: #FFC107;
-$info: #17a2b8;
-$light: #F8F9FA;
-$dark: #343A40;
-$body-bg: #FFFFFF;
-$body-color: #212529;
-$nav-link-color: FFFFFF;
+$link-color:       $secondary;
+$link-hover-color: darken($secondary, 10%);
 
-nav {
-  color: white !important;
-}
-
-/* importando bootstrap */
 @import 'bootstrap/scss/bootstrap';
+
+.card .card-img-top {
+  height: 260px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}

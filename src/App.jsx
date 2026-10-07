@@ -5,7 +5,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
-import Library from './pages/Library'
+import Orders from './pages/Orders'
 import Profile from './pages/Profile'
 import './App.scss'
 import Layout from './layouts/Layout'
@@ -23,7 +23,7 @@ function App() {
             <Route path={ROUTE_PATHS.HOME} element={<Home />} />
             <Route path={ROUTE_PATHS.PRODUCTS} element={<Products />} />
             <Route path={ROUTE_PATHS.PRODUCT_DETAIL} element={<ProductDetail />} />
-            <Route path={ROUTE_PATHS.LIBRARY} element={<Library />} />
+            <Route path={ROUTE_PATHS.ORDERS} element={<Orders />} />
             <Route path={ROUTE_PATHS.PROFILE} element={<Profile />} />
           </Route>
         </Routes>
