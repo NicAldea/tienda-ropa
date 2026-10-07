@@ -10,9 +10,9 @@ import { formatPrice } from "../utils/formatters";
 expect.extend(toHaveNoViolations);
 
 const product = {
-  name: "Juego divertido",
+  name: "Polera de prueba",
   price: 6500,
-  description: "Juego muy divertido",
+  description: "Polera de algodón para pruebas",
   image: "https://via.placeholder.com/150",
 }
 

@@ -10,8 +10,8 @@ vi.mock("../services/products", () => ({
   /* Hacemos mock de la función getProducts del módulo para que retorne una promesa
   con unos productos fijos*/
   getProducts: vi.fn(() => Promise.resolve([
-    { id: 1, name: "Juego A", price: 1000, description: "Desc A", image: "a.jpg" },
-    { id: 2, name: "Juego B", price: 2000, description: "Desc B", image: "b.jpg" }
+    { id: 1, name: "Producto A", price: 1000, description: "Desc A", image: "a.jpg" },
+    { id: 2, name: "Producto B", price: 2000, description: "Desc B", image: "b.jpg" }
   ]))
 }));
 
@@ -22,7 +22,7 @@ import { getProducts } from "../services/products";
 const mockedGetProducts = vi.mocked(getProducts);
 
 // Describimos el foco general de las pruebas (el componente ProductCard)
-describe("ProductCard Component", () => {
+describe("Home Component", () => {
   // Se ejecuta entre cada prueba
   beforeEach(() => {
     /* En archivos que usen mocks, se recomienda usar esta línea para limpiar
@@ -44,8 +44,8 @@ describe("ProductCard Component", () => {
   });
   it("should show products", async () => {
     const { getByText, findByText } = render(<MemoryRouter><Home /></MemoryRouter>);
-    expect(await findByText("Juego A")).toBeTruthy();
-    expect(getByText("Juego B")).toBeTruthy();
+    expect(await findByText("Producto A")).toBeTruthy();
+    expect(getByText("Producto B")).toBeTruthy();
   });
   it("should filter products products", async () => {
     /* Cuando además queremos probar los params de url de un componente, tenemos que agregar
@@ -59,8 +59,8 @@ describe("ProductCard Component", () => {
     /* waitFor ayuda a esperar a que el componente se renderize completamente, incluso
     después del primer useEffect para llamar a servicio (mount) */
     await waitFor(() => {
-      expect(getByText("Juego B")).toBeTruthy();
-      expect(queryByText("Juego A")).toBeNull();
+      expect(getByText("Producto B")).toBeTruthy();
+      expect(queryByText("Producto A")).toBeNull();
     });
   });
 });

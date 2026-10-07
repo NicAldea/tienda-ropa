@@ -1,61 +1,85 @@
-
 const products = [
   {
     id: 1,
-    name: 'Hades II',
-    price: 15000,
-    image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/91ac334a2c137d08968ccc0bc474a02579602100/header.jpg?t=1758942442',
-    description: 'Battle beyond the Underworld using dark sorcery to take on the Titan of Time in this bewitching sequel to the award-winning rogue-like dungeon crawler.',
+    code: 'POL-001',
+    name: 'Polera Básica',
+    price: 12990,
+    stock: 25,
+    criticalStock: 5,
+    category: 'Ropa Hombre',
+    image: '/img/polerasimple.jpg',
+    description: 'Polera de algodón peinado, corte regular. Una prenda que funciona sola, bajo una chaqueta o bajo un chaleco.',
   },
   {
     id: 2,
-    name: 'Hollow Knight: Silksong',
-    price: 10500,
-    image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/7983574d464e6559ac7e24275727f73a8bcca1f3/header.jpg?t=1756994410',
-    description: 'Discover a vast, haunted kingdom in Hollow Knight: Silksong! Explore, fight and survive as you ascend to the peak of a land ruled by silk and song.',
+    code: 'JEA-001',
+    name: 'Jeans Corte Recto',
+    price: 29990,
+    stock: 18,
+    criticalStock: 4,
+    category: 'Ropa Mujer',
+    image: '/img/jeans.jpg',
+    description: 'Mezclilla de peso medio en azul oscuro, corte recto. Más versátil que el skinny y más formal que el cargo.',
   },
   {
     id: 3,
-    name: 'Stardew Valley',
-    price: 7500,
-    image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1754692865',
-    description: "You've inherited your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home?",
+    code: 'CHA-001',
+    name: 'Chaqueta de Mezclilla',
+    price: 39990,
+    stock: 12,
+    criticalStock: 3,
+    category: 'Ropa Hombre',
+    image: '/img/chaquetamezclilla.jpg',
+    description: 'Chaqueta clásica de mezclilla con botones metálicos. Abriga lo justo para media estación y combina con casi cualquier color.',
   },
   {
     id: 4,
-    name: 'DOOM Eternal',
-    price: 26900,
-    image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/782330/header.jpg?t=1755109910',
-    description: 'Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.',
+    code: 'ZAP-001',
+    name: 'Zapatillas Urbanas',
+    price: 34990,
+    stock: 9,
+    criticalStock: 3,
+    category: 'Calzado',
+    image: '/img/zapatillas.jpg',
+    description: 'Zapatillas de lona con suela de goma y detalles en contraste. Pensadas para el día a día en la ciudad.',
   },
   {
     id: 5,
-    name: 'Balatro',
-    price: 8300,
-    image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/7a85430784e4d613cdb0547414d8cf16ffa45747/header.jpg?t=1757947116',
-    description: 'The poker roguelike. Balatro is a hypnotically satisfying deckbuilder where you play illegal poker hands, discover game-changing jokers, and trigger adrenaline-pumping, outrageous combos.',
+    code: 'BOL-001',
+    name: 'Bolso de Cuero',
+    price: 24990,
+    stock: 7,
+    criticalStock: 2,
+    category: 'Accesorios',
+    image: '/img/bolsocuero.jpg',
+    description: 'Bolso de cuero sintético con correa ajustable y cierre magnético. Capacidad para notebook de 13 pulgadas.',
+  },
+  {
+    id: 6,
+    code: 'GOR-001',
+    name: 'Gorro de Lana',
+    price: 8990,
+    stock: 30,
+    criticalStock: 6,
+    category: 'Accesorios',
+    image: '/img/gorrolana.jpg',
+    description: 'Gorro tejido en lana mezclada, talla única. El accesorio que diferencia un atuendo básico de uno con personalidad.',
   },
 ];
 
 export function getProducts() {
-
-  // Las promesas (Promise) son una forma de manejar operaciones asincrónicas en JavaScript.
   return new Promise((resolve) => {
-    return setTimeout(() => {
-      resolve(products);
-    }, 1000);
-  })
+    setTimeout(() => resolve(products), 500);
+  });
 }
 
 export function getProductById(id) {
   return new Promise((resolve, reject) => {
     const product = products.find((p) => p.id === parseInt(id));
     if (product) {
-      return setTimeout(() => {
-        resolve(product);
-      }, 1000);
+      setTimeout(() => resolve(product), 500);
     } else {
-      reject(new Error("Producto no encontrado"));
+      reject(new Error('Producto no encontrado'));
     }
   });
 }

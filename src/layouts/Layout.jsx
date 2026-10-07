@@ -19,7 +19,7 @@ function Layout() {
         <Navbar expand="lg" bg="primary" variant="dark">
           <Container>
             <Navbar.Brand href={ROUTE_PATHS.HOME}>
-              Estim
+              DresShop
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
@@ -44,9 +44,9 @@ function Layout() {
                         Mi perfil
                       </NavLink>
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/mi-biblioteca">
-                      <NavLink className="nav-dropdown-item" to={ROUTE_PATHS.LIBRARY}>
-                        Mi biblioteca
+                    <NavDropdown.Item>
+                      <NavLink className="nav-dropdown-item" to={ROUTE_PATHS.ORDERS}>
+                        Mis pedidos
                       </NavLink>
                     </NavDropdown.Item>
                     <NavDropdown.Item href="#" onClick={signOut}>Cerrar sesión</NavDropdown.Item>
@@ -63,7 +63,7 @@ function Layout() {
         <Outlet />
       </Container>
       <footer className="bg-primary text-white text-center py-3 mt-auto">
-        © 2025 Estim
+        © 2026 DresShop - Ropa y Accesorios
       </footer>
     </>
   )
