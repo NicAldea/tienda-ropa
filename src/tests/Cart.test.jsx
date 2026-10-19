@@ -4,7 +4,8 @@ import { MemoryRouter } from "react-router";
 import { describe, it, expect, beforeEach } from "vitest";
 import Cart from "../pages/Cart";
 import { CartProvider } from "../context/CartContext";
-import { LOCAL_STORAGE_CART_KEY } from "../utils/constants";
+import { LOCAL_STORAGE_CART_KEY, LOCAL_STORAGE_SESSION_KEY } from "../utils/constants";
+import { getProductById } from "../services/products";
 import { formatPrice } from "../utils/formatters";
 
 const renderCart = () => render(
@@ -40,5 +41,32 @@ describe("Cart Page + CartContext", () => {
     expect(queryByText("Tu carrito está vacío.")).toBeNull();
     await user.click(getByRole("button", { name: "Eliminar" }));
     expect(queryByText("Tu carrito está vacío.")).not.toBeNull();
+  });
+});
+
+describe("Compra desde el carrito", () => {
+  beforeEach(() => {
+    cleanup();
+    localStorage.clear();
+    localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify([
+      { id: 1, name: "Polera Básica", price: 12990, image: "a.jpg", stock: 25, quantity: 2 },
+    ]));
+  });
+
+  it("sin sesión iniciada no permite comprar y muestra un aviso", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByText } = renderCart();
+    await user.click(getByRole("button", { name: "Comprar ahora" }));
+    expect(getByText("Debes iniciar sesión para comprar.")).toBeTruthy();
+  });
+
+  it("con sesión iniciada la compra se confirma y se descuenta el stock", async () => {
+    localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, JSON.stringify({ username: "Comprador", role: "cliente" }));
+    const user = userEvent.setup();
+    const { getByRole, findByText } = renderCart();
+    await user.click(getByRole("button", { name: "Comprar ahora" }));
+    expect(await findByText(/Compra realizada/)).toBeTruthy();
+    const producto = await getProductById(1);
+    expect(producto.stock).toBe(23);
   });
 });

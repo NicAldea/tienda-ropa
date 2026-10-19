@@ -23,7 +23,7 @@ function About() {
       <Row className="g-4 mt-2">
         <Col xs={12} md={4}><h2 className="h5">Misión</h2><p>Vestir con identidad a precios accesibles.</p></Col>
         <Col xs={12} md={4}><h2 className="h5">Visión</h2><p>Ser la tienda online de referencia en moda básica de calidad en Chile.</p></Col>
-        <Col xs={12} md={4}><h2 className="h5">Equipo</h2><p>Nicolás Aldea y equipo DSY1104 — Desarrollo Full Stack II.</p></Col>
+        <Col xs={12} md={4}><h2 className="h5">Equipo</h2><p>Nicolás Aldea y Fabian Caro — Desarrollo Full Stack II.</p></Col>
       </Row>
     </>
   );

@@ -11,6 +11,18 @@ const ADMIN_USER = {
   role: 'admin',
 };
 
+// Cuenta de comprador de demostración (rol cliente) para probar compras y stock
+const BUYER_USER = {
+  run: '123456785',
+  nombre: 'Comprador',
+  apellidos: 'Demo',
+  correo: 'comprador@gmail.com',
+  password: 'compra123',
+  role: 'cliente',
+};
+
+const DEMO_USERS = [ADMIN_USER, BUYER_USER];
+
 export function getUsers() {
   return getJsonFromLocalStorage(LOCAL_STORAGE_USERS_KEY) ?? [];
 }
@@ -20,7 +32,7 @@ export function registerUser(user) {
   return new Promise((resolve, reject) => {
     const users = getUsers();
     const correo = user.correo.trim().toLowerCase();
-    if (correo === ADMIN_USER.correo || users.some((u) => u.correo === correo)) {
+    if (DEMO_USERS.some((u) => u.correo === correo) || users.some((u) => u.correo === correo)) {
       reject(new Error('Ya existe una cuenta con ese correo'));
       return;
     }
@@ -35,7 +47,7 @@ export function signIn(correo, password) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const email = (correo || '').trim().toLowerCase();
-      const user = [ADMIN_USER, ...getUsers()].find(
+      const user = [...DEMO_USERS, ...getUsers()].find(
         (u) => u.correo === email && u.password === password
       );
       if (user) {

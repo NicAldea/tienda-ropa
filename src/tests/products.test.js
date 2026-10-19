@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import {
-  createProduct, deleteProduct, getProductById, getProducts, resetProducts, updateProduct,
+  createProduct, deleteProduct, getProductById, getProducts, purchaseItems, resetProducts, updateProduct,
 } from "../services/products";
 
 // Pruebas del CRUD sobre el archivo de datos (persistido en localStorage)
@@ -31,5 +31,27 @@ describe("CRUD de productos", () => {
   it("elimina un producto y deja de encontrarse", async () => {
     await deleteProduct(2);
     await expect(getProductById(2)).rejects.toThrow("Producto no encontrado");
+  });
+});
+
+describe("Compra y stock", () => {
+  beforeEach(() => {
+    resetProducts();
+  });
+
+  it("al comprar se descuenta del stock la cantidad comprada", async () => {
+    // Polera Básica parte con 25 unidades
+    await purchaseItems([{ id: 1, name: "Polera Básica", quantity: 3 }]);
+    const producto = await getProductById(1);
+    expect(producto.stock).toBe(22);
+  });
+
+  it("rechaza la compra si no hay stock suficiente y no descuenta nada", async () => {
+    await expect(purchaseItems([
+      { id: 1, name: "Polera Básica", quantity: 1 },
+      { id: 5, name: "Bolso de Cuero", quantity: 99 },
+    ])).rejects.toThrow("Stock insuficiente");
+    const polera = await getProductById(1);
+    expect(polera.stock).toBe(25);
   });
 });

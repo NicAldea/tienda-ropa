@@ -19,16 +19,24 @@ export function CartProvider({ children }) {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === product.id);
       if (existing) {
+        // No se puede agregar más unidades que el stock disponible
+        if (existing.quantity >= product.stock) return prev;
         return prev.map((i) => (i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i));
       }
-      const { id, name, price, image } = product;
-      return [...prev, { id, name, price, image, quantity: 1 }];
+      if (product.stock < 1) return prev;
+      const { id, name, price, image, stock } = product;
+      return [...prev, { id, name, price, image, stock, quantity: 1 }];
     });
   };
 
   const changeQuantity = (id, quantity) => {
     if (quantity < 1) return;
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity } : i)));
+    setItems((prev) => prev.map((i) => {
+      if (i.id !== id) return i;
+      // Si el producto trae stock, la cantidad no puede superarlo
+      const max = i.stock ?? Infinity;
+      return { ...i, quantity: Math.min(quantity, max) };
+    }));
   };
 
   const removeFromCart = (id) => setItems((prev) => prev.filter((i) => i.id !== id));
