@@ -9,7 +9,13 @@ function Layout() {
   let navigate = useNavigate();
   const [query, setQuery] = useState("");
   const { isLogged, userSession, signOut } = useSession();
-  const { count } = useCart();
+  const { count, clearCart } = useCart();
+
+  // Al cerrar sesión se vacía el carrito, para que el próximo usuario no vea lo que dejó el anterior
+  const handleSignOut = () => {
+    clearCart();
+    signOut();
+  };
 
   const searchQuery = (e) => {
     e.preventDefault();
@@ -54,7 +60,7 @@ function Layout() {
                     <NavDropdown.Item as={NavLink} to={ROUTE_PATHS.PROFILE}>Mi perfil</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to={ROUTE_PATHS.ORDERS}>Mis pedidos</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={signOut}>Cerrar sesión</NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleSignOut}>Cerrar sesión</NavDropdown.Item>
                   </NavDropdown>
                 ) : (
                   <>
@@ -70,8 +76,17 @@ function Layout() {
       <Container className="my-4 flex-fill">
         <Outlet />
       </Container>
-      <footer className="bg-primary text-white text-center py-3 mt-auto">
-        © 2026 DresShop - Ropa y Accesorios
+      <footer className="bg-primary text-white py-4 mt-auto">
+        <Container className="text-center">
+          <h2 className="h6 text-secondary">Quiénes somos</h2>
+          <p className="small mb-2">
+            DresShop es una tienda online de ropa y accesorios creada por Nicolás Aldea y Fabian Caro,
+            estudiantes de Duoc UC. Un catálogo corto, prendas que combinan entre sí y precios justos.
+          </p>
+          <NavLink to={ROUTE_PATHS.ABOUT} className="small text-secondary">Conoce más sobre nosotros</NavLink>
+          <hr className="border-secondary" />
+          <small>© 2026 DresShop - Ropa y Accesorios</small>
+        </Container>
       </footer>
     </>
   )
