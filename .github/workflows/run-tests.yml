@@ -2,9 +2,9 @@ name: CI - Evaluación de pruebas
 
 on:
   push:
-    branches: [ master ]   # solo corre cuando haces push a main
+    branches: [ main ]   # solo corre cuando haces push a main
   pull_request:
-    branches: [ master ]   # también corre en PR hacia main
+    branches: [ main ]   # también corre en PR hacia main
 
 jobs:
   test:
