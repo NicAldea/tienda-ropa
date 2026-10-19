@@ -56,12 +56,10 @@ function Products() {
                 price={p.price}
                 description={p.description}
                 image={p.image}
+                stock={p.stock}
                 action={p.stock > 0 ? () => handleAdd(p) : undefined}
                 actionName="Añadir al carrito"
               />
-              <small className={p.stock > 0 ? "text-muted" : "text-danger fw-bold"}>
-                {p.stock > 0 ? `Stock disponible: ${p.stock}` : "Agotado"}
-              </small>
               <Button variant="link" className="px-0" onClick={() => navigate(ROUTE_PATHS.PRODUCT_DETAIL_WITH_ID(p.id))}>
                 Ver detalle
               </Button>
