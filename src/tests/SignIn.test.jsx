@@ -21,7 +21,7 @@ describe("SignIn Component", () => {
       queryByRole
     } = render(<MemoryRouter><SignIn /></MemoryRouter>);
     
-    expect(getByPlaceholderText(/Ingresa tu username/i)).toBeTruthy();
+    expect(getByPlaceholderText(/Ingresa tu correo/i)).toBeTruthy();
     expect(getByPlaceholderText(/Ingresa tu contraseña/i)).toBeTruthy();
     /* A la mayoría de selectores de render podemos pasarla una configuración adicional.
     En este caso, estamos indicando que el elemento debe ser un button además de tener
@@ -32,7 +32,7 @@ describe("SignIn Component", () => {
   it("updates input values con change", () => {
     const { getByPlaceholderText } = render(<MemoryRouter><SignIn /></MemoryRouter>);
     // Obtenemos los inputs generados
-    const usernameInput = getByPlaceholderText(/Ingresa tu username/i);
+    const usernameInput = getByPlaceholderText(/Ingresa tu correo/i);
     const passwordInput = getByPlaceholderText(/Ingresa tu contraseña/i);
 
     // Comprobaos que estos elementos HTML obtenidos sean inputs
@@ -55,6 +55,6 @@ describe("SignIn Component", () => {
 
     // Como estaban los inputs vacíos, esperamos a que se muestre la alerta.
     const errorAlert = await findByRole("alert");
-    expect(errorAlert.textContent).toBe("Por favor ingresa tu username y contraseña")
+    expect(errorAlert.textContent).toBe("Por favor ingresa tu correo y contraseña")
   });
 })

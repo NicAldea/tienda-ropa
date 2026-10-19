@@ -1,58 +1,67 @@
-import { Container, Navbar, Nav, NavDropdown, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Navbar, Nav, NavDropdown, Button, Form } from "react-bootstrap";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useSession } from "../hooks/useSession";
 import { ROUTE_PARAMS, ROUTE_PATHS } from "../utils/constants";
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
+import { formatPrice } from "../utils/formatters";
 
 function Layout() {
   let navigate = useNavigate();
   const [query, setQuery] = useState("");
   const { isLogged, userSession, signOut } = useSession();
+  const { total, count } = useCart();
 
-  const searchQuery = () => {
-    navigate(`${ROUTE_PATHS.HOME}?${ROUTE_PARAMS.SEARCH}=${query}`);
+  const searchQuery = (e) => {
+    e.preventDefault();
+    navigate(`${ROUTE_PATHS.PRODUCTS}?${ROUTE_PARAMS.SEARCH}=${query}`);
   };
 
   return (
     <>
       <header>
-        <Navbar expand="lg" bg="primary" variant="dark">
+        <Navbar expand="lg" bg="primary" variant="dark" collapseOnSelect>
           <Container>
-            <Navbar.Brand href={ROUTE_PATHS.HOME}>
-              DresShop
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
-              <Nav className="me-auto justify-content-end">
-                  <Row className="mr-8">
-                    <Col xs="auto">
-                      <Form.Control
-                        type="text"
-                        placeholder="Buscar..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                      />
-                    </Col>
-                    <Col xs="auto">
-                      <Button variant="secondary" onClick={searchQuery}>Buscar</Button>
-                    </Col>
-                  </Row>
+            <Navbar.Brand as={NavLink} to={ROUTE_PATHS.HOME}>DresShop</Navbar.Brand>
+            <Navbar.Toggle aria-controls="menu-principal" />
+            <Navbar.Collapse id="menu-principal">
+              <Nav className="me-auto">
+                <Nav.Link as={NavLink} to={ROUTE_PATHS.HOME} end>Home</Nav.Link>
+                <Nav.Link as={NavLink} to={ROUTE_PATHS.PRODUCTS}>Productos</Nav.Link>
+                <Nav.Link as={NavLink} to={ROUTE_PATHS.ABOUT}>Nosotros</Nav.Link>
+                <Nav.Link as={NavLink} to={ROUTE_PATHS.BLOGS}>Blogs</Nav.Link>
+                <Nav.Link as={NavLink} to={ROUTE_PATHS.CONTACT}>Contacto</Nav.Link>
+                {userSession?.role === "admin" && (
+                  <Nav.Link as={NavLink} to={ROUTE_PATHS.ADMIN}>Admin</Nav.Link>
+                )}
+              </Nav>
+              <Form className="d-flex my-2 my-lg-0 me-lg-3" role="search" onSubmit={searchQuery}>
+                <Form.Control
+                  type="search"
+                  placeholder="Buscar..."
+                  aria-label="Buscar productos"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="me-2"
+                />
+                <Button variant="secondary" type="submit">Buscar</Button>
+              </Form>
+              <Nav className="align-items-lg-center gap-2">
+                <Button as={NavLink} to={ROUTE_PATHS.CART} variant="success">
+                  🛒 Carrito ({count}) {formatPrice(total)}
+                </Button>
                 {isLogged ? (
-                  <NavDropdown title={userSession.username} id="basic-nav-dropdown">
-                    <NavDropdown.Item>
-                      <NavLink className="nav-dropdown-item" to={ROUTE_PATHS.PROFILE}>
-                        Mi perfil
-                      </NavLink>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavLink className="nav-dropdown-item" to={ROUTE_PATHS.ORDERS}>
-                        Mis pedidos
-                      </NavLink>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#" onClick={signOut}>Cerrar sesión</NavDropdown.Item>
+                  <NavDropdown title={userSession.username} id="menu-usuario" align="end">
+                    <NavDropdown.Item as={NavLink} to={ROUTE_PATHS.PROFILE}>Mi perfil</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to={ROUTE_PATHS.ORDERS}>Mis pedidos</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={signOut}>Cerrar sesión</NavDropdown.Item>
                   </NavDropdown>
                 ) : (
-                  <NavLink className="nav-link" to={ROUTE_PATHS.SIGN_IN}>Iniciar sesión</NavLink>
+                  <>
+                    <Button as={NavLink} to={ROUTE_PATHS.SIGN_IN} variant="outline-light">Iniciar sesión</Button>
+                    <Button as={NavLink} to={ROUTE_PATHS.REGISTER} variant="secondary">Crear cuenta</Button>
+                  </>
                 )}
               </Nav>
             </Navbar.Collapse>
