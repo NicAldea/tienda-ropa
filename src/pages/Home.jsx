@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { getProducts } from "../services/products";
 import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
@@ -30,6 +30,14 @@ function Home() {
     <>
       <h1>Vístete con identidad</h1>
       <h2>Ropa y accesorios seleccionados uno a uno</h2>
+      <section className="bg-light rounded p-3 my-3" aria-labelledby="quienes-somos">
+        <h3 id="quienes-somos" className="h5">Quiénes somos</h3>
+        <p className="mb-2">
+          DresShop es una tienda online de ropa y accesorios creada por Nicolás Aldea y Fabian Caro,
+          estudiantes de Duoc UC. Un catálogo corto, prendas que combinan entre sí y precios justos.
+        </p>
+        <Button variant="outline-primary" size="sm" onClick={() => navigate(ROUTE_PATHS.ABOUT)}>Conoce más</Button>
+      </section>
       <hr />
       <Container>
         <Row className="align-items-stretch">

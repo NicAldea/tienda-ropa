@@ -2,23 +2,39 @@ import { useState } from "react";
 import { Alert, Button, Image, Table } from "react-bootstrap";
 import { NavLink } from "react-router";
 import { useCart } from "../context/CartContext";
+import { useSession } from "../hooks/useSession";
+import { purchaseItems } from "../services/products";
 import { ROUTE_PATHS } from "../utils/constants";
 import { formatPrice } from "../utils/formatters";
 
 function Cart() {
-  const { items, total, changeQuantity, removeFromCart, clearCart } = useCart();
+  const { items, total, count, changeQuantity, removeFromCart, clearCart } = useCart();
+  const { isLogged } = useSession();
   const [order, setOrder] = useState(null);
+  const [error, setError] = useState("");
 
   const handleBuy = () => {
-    // Compra simulada: se genera un número de orden y se vacía el carrito
-    setOrder({ number: Date.now().toString().slice(-6), total });
-    clearCart();
+    // Solo un usuario con sesión iniciada puede comprar
+    if (!isLogged) {
+      setError("Debes iniciar sesión para comprar.");
+      return;
+    }
+    // La compra descuenta el stock de cada prenda en el archivo de datos
+    purchaseItems(items)
+      .then(() => {
+        setOrder({ number: Date.now().toString().slice(-6), total, items });
+        clearCart();
+      })
+      .catch((err) => setError(err.message));
   };
 
   if (order) {
     return (
       <Alert variant="success">
         <Alert.Heading>¡Compra realizada! Orden #{order.number}</Alert.Heading>
+        <ul className="mb-2">
+          {order.items.map((i) => <li key={i.id}>{i.quantity} × {i.name}</li>)}
+        </ul>
         Total pagado: {formatPrice(order.total)}
       </Alert>
     );
@@ -38,9 +54,15 @@ function Cart() {
   return (
     <>
       <h1>Carrito de compras</h1>
+      <p className="text-muted">{count} {count === 1 ? "prenda" : "prendas"} en tu carrito</p>
+      {error && (
+        <Alert variant="warning">
+          {error} {!isLogged && <NavLink to={ROUTE_PATHS.SIGN_IN}>Iniciar sesión</NavLink>}
+        </Alert>
+      )}
       <Table responsive hover className="align-middle">
         <thead>
-          <tr><th>Imagen</th><th>Nombre</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th>Acciones</th></tr>
+          <tr><th>Imagen</th><th>Prenda</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th>Acciones</th></tr>
         </thead>
         <tbody>
           {items.map((i) => (
@@ -60,6 +82,12 @@ function Cart() {
             </tr>
           ))}
         </tbody>
+        <tfoot>
+          <tr>
+            <th colSpan={4} className="text-end">Total</th>
+            <th colSpan={2}>{formatPrice(total)}</th>
+          </tr>
+        </tfoot>
       </Table>
       <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
         <strong className="fs-5">Total: {formatPrice(total)}</strong>

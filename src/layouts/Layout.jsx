@@ -4,13 +4,12 @@ import { useSession } from "../hooks/useSession";
 import { ROUTE_PARAMS, ROUTE_PATHS } from "../utils/constants";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
-import { formatPrice } from "../utils/formatters";
 
 function Layout() {
   let navigate = useNavigate();
   const [query, setQuery] = useState("");
   const { isLogged, userSession, signOut } = useSession();
-  const { total, count } = useCart();
+  const { count } = useCart();
 
   const searchQuery = (e) => {
     e.preventDefault();
@@ -48,7 +47,7 @@ function Layout() {
               </Form>
               <Nav className="align-items-lg-center gap-2">
                 <Button as={NavLink} to={ROUTE_PATHS.CART} variant="success">
-                  🛒 Carrito ({count}) {formatPrice(total)}
+                  🛒 Carrito ({count} {count === 1 ? "prenda" : "prendas"})
                 </Button>
                 {isLogged ? (
                   <NavDropdown title={userSession.username} id="menu-usuario" align="end">

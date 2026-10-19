@@ -129,6 +129,25 @@ export function deleteProduct(id) {
   return Promise.resolve(true);
 }
 
+// COMPRA: descuenta del stock la cantidad comprada de cada producto.
+// Primero revisa TODO el carrito; si falta stock de algo, no descuenta nada.
+export function purchaseItems(items) {
+  const products = loadProducts();
+  for (const item of items) {
+    const product = products.find((p) => p.id === item.id);
+    if (!product) return Promise.reject(new Error(`${item.name} ya no está disponible`));
+    if (product.stock < item.quantity) {
+      return Promise.reject(new Error(`Stock insuficiente de ${product.name}: quedan ${product.stock}`));
+    }
+  }
+  const updated = products.map((p) => {
+    const item = items.find((i) => i.id === p.id);
+    return item ? { ...p, stock: p.stock - item.quantity } : p;
+  });
+  saveProducts(updated);
+  return Promise.resolve(updated);
+}
+
 // Útil para pruebas y para "restablecer" el catálogo
 export function resetProducts() {
   localStorage.removeItem(LOCAL_STORAGE_PRODUCTS_KEY);
