@@ -1,4 +1,8 @@
-const products = [
+import { LOCAL_STORAGE_PRODUCTS_KEY } from "../utils/constants";
+import { getJsonFromLocalStorage } from "../utils/localStorage";
+
+// Datos iniciales: se usan la primera vez, cuando localStorage está vacío
+const INITIAL_PRODUCTS = [
   {
     id: 1,
     code: 'POL-001',
@@ -67,19 +71,65 @@ const products = [
   },
 ];
 
+// ---- Persistencia ----
+// Lee los productos guardados; si no hay, usa los iniciales
+function loadProducts() {
+  return getJsonFromLocalStorage(LOCAL_STORAGE_PRODUCTS_KEY) ?? [...INITIAL_PRODUCTS];
+}
+
+function saveProducts(products) {
+  localStorage.setItem(LOCAL_STORAGE_PRODUCTS_KEY, JSON.stringify(products));
+}
+
+// ---- CRUD ----
+// READ: todos los productos
 export function getProducts() {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(products), 500);
+    setTimeout(() => resolve(loadProducts()), 300);
   });
 }
 
+// READ: un producto por id
 export function getProductById(id) {
   return new Promise((resolve, reject) => {
-    const product = products.find((p) => p.id === parseInt(id));
+    const product = loadProducts().find((p) => p.id === parseInt(id));
     if (product) {
-      setTimeout(() => resolve(product), 500);
+      setTimeout(() => resolve(product), 300);
     } else {
       reject(new Error('Producto no encontrado'));
     }
   });
+}
+
+// CREATE: agrega un producto con un id nuevo (el mayor + 1)
+export function createProduct(data) {
+  const products = loadProducts();
+  const newId = products.length ? Math.max(...products.map((p) => p.id)) + 1 : 1;
+  const product = { ...data, id: newId };
+  saveProducts([...products, product]);
+  return Promise.resolve(product);
+}
+
+// UPDATE: reemplaza los campos del producto con ese id
+export function updateProduct(id, data) {
+  const products = loadProducts();
+  const index = products.findIndex((p) => p.id === id);
+  if (index === -1) return Promise.reject(new Error('Producto no encontrado'));
+  const updated = { ...products[index], ...data, id };
+  products[index] = updated;
+  saveProducts(products);
+  return Promise.resolve(updated);
+}
+
+// DELETE: quita el producto con ese id
+export function deleteProduct(id) {
+  const products = loadProducts();
+  if (!products.some((p) => p.id === id)) return Promise.reject(new Error('Producto no encontrado'));
+  saveProducts(products.filter((p) => p.id !== id));
+  return Promise.resolve(true);
+}
+
+// Útil para pruebas y para "restablecer" el catálogo
+export function resetProducts() {
+  localStorage.removeItem(LOCAL_STORAGE_PRODUCTS_KEY);
 }
